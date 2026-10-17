@@ -45,7 +45,7 @@ Each row compares flagged and unflagged tools **of the same exact word count** (
 | too_short | 279,158 | -0.95 pp | **n/a** | +1.50 pp | **n/a** |
 | is_empty | 48,980 | -0.45 pp | **n/a** | +0.89 pp | **n/a** |
 
-Length alone predicts a raw gap of -0.99 pp in good and +1.61 pp in bad for `underspecified`; the observed raw gaps are -0.96 pp and +1.68 pp. 96.2% of underspecified tools are empty or under 6 words.
+Length alone predicts a raw gap of -0.99 pp in good and +1.61 pp in bad for `underspecified`; the observed raw gaps are -0.96 pp and +1.68 pp. Within-length estimates use only strata where both arms exist: for `underspecified` that is 12,784 of 340,956 flagged tools (all 6+ words, since every tool under 6 words is flagged). 96.2% of underspecified tools are empty or under 6 words.
 
 **Sensitivity checks** (length held fixed, B=100):
 
@@ -68,7 +68,7 @@ Unit = server (69,473 servers with a star count). Outcome = P(stars >= 10). Leng
 ### Prevalence (analysis set)
 694,411 tools from 70,927 servers (ATE `in_analysis_set == 1`); median description 6 words; 694,406 have a judge label (partial 85.2%, bad 12.2%, good 2.6%).
 
-| Flag | Rule flags | Hand-label estimate (blind random n=100) |
+| Flag | Rule flags | LLM-annotator estimate (random n=100) |
 |---|---|---|
 | underspecified | 49.1% | 35.0% [26.4, 44.7] |
 | is_empty | 7.0% |  |
@@ -84,15 +84,17 @@ Unit = server (69,473 servers with a star count). Outcome = P(stars >= 10). Leng
 
 ### Safety cues on destructive tools
 Rule (corpus, cluster-bootstrap CI): 95.1% [94.9, 95.4] of 53,334 destructive-flagged tools carry no safety cue; 94.5% when the destructive verb is in the description, 98.4% when it is only in the name, and 91.8% [90.8, 92.7] among descriptions of 15+ words.
-Hand check (blind n=60 sample of rule-flagged tools): 46 are truly destructive (precision 76.7% [64.6, 85.6]); of those, **40/46 = 87.0% [74.3, 93.9] carry no safety cue**.
+LLM-annotator check (n=60 sample of rule-flagged tools, labelled by the agent that wrote the rules; human check pending): 46 judged truly destructive (precision 76.7% [64.6, 85.6]); of those, **40/46 = 87.0% [74.3, 93.9] carry no safety cue**.
 
-### Heuristic validation (blind, rules frozen before sampling)
-| Check | n | Accuracy (majority baseline) | Precision [95% CI] | Recall [95% CI] | Cohen's κ |
+### Heuristic validation (rules frozen before sampling; labels by an LLM annotator that wrote the rules, not shown rule outputs or judge labels)
+| Check | n | Accuracy (majority baseline) | Precision [95% CI] | Recall [95% CI] | Cohen's κ (rule vs LLM annotator) |
 |---|---|---|---|---|---|
-| underspecified, random sample | 100 | 0.65 (0.65) | 0.50[0.37, 0.63] | 0.74[0.58, 0.86] | 0.31 |
-| destructive, random sample | 100 | 0.95 (0.97) | 0.33[0.1, 0.7] | 0.67[0.21, 0.94] | 0.42 |
-| safety_cue, truly destructive tools | 46 | 0.87 (0.87) | 0.50[0.15, 0.85] | 0.33[0.1, 0.7] | 0.33 |
-| underspecified, v1 dev set (not held out) | 40 | 0.72 (0.60) | 0.60[0.41, 0.77] | 0.94[0.72, 0.99] | 0.48 |
+| underspecified, random sample | 100 | 0.65 (0.65) | 0.50 [0.37, 0.63] | 0.74 [0.58, 0.86] | 0.31 |
+| destructive, random sample | 100 | 0.95 (0.97) | 0.33 [0.1, 0.7] | 0.67 [0.21, 0.94] | 0.42 |
+| safety_cue, truly destructive tools | 46 | 0.87 (0.87) | 0.50 [0.15, 0.85] | 0.33 [0.1, 0.7] | 0.33 |
+| underspecified, v1 dev set (not held out) | 40 | 0.72 (0.60) | 0.60 [0.41, 0.77] | 0.94 [0.72, 0.99] | 0.48 |
+
+Ablation: 6,010 destructive flags (11.3%) are triggered only by "email" forms, mostly the noun (`list_emails`, `get_email`). Without them the rule's no-cue rate is 94.7% (email-only: 98.9%). The lexicon is unchanged so the tables stay comparable; the LLM-annotator 87% is unaffected because its sample was labelled per tool.
 
 ### Underspecification by server popularity (tool-weighted, cluster-bootstrap CI)
 | GitHub stars | Servers | Tools | Median words | underspecified [95% CI] | underspecified_content [95% CI] |
