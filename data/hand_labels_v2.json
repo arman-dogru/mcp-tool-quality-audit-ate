@@ -1,0 +1,969 @@
+{
+"protocol": "Rules frozen at commit d1e14ad (rules v2) BEFORE these samples were drawn. Samples drawn from in_analysis_set==1 tools, excluding the 40 v1 dev-set tool_ids: random sample n=100 (pandas .sample(random_state=2026)); destructive sample n=60 drawn with random_state=2026 from the remaining tools the v2 rule flags as destructive. Annotator: the Developer agent (an LLM-based bot), single annotator, shown only tool name + description (first 400 chars) in a plain text file; rule outputs, ATE judge labels and judge notes were not shown. underspecified=1 if an agent would have to guess what the tool does or which input it needs from name+description alone (empty descriptions count as 1). destructive=1 if the tool's own action deletes/overwrites data, sends/publishes outside the system, moves money, deploys, or actuates a device. safety_cue=1 if the text tells the agent the action is irreversible/permanent, recoverable (trash, backup, track changes), or guarded (confirmation, safety checks).",
+"rules_version": "v2",
+"random_sample": [
+{
+"tool_id": "28afc9d98c2b479d:set_traveler_location",
+"text_sha1": "e98fe3a3a2b8",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "2718fd4edc68c8d3:cat_url",
+"text_sha1": "9ec2b37267ad",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "75a0fa8714d41b9c:[wechat-mcp-server]",
+"text_sha1": "1e14a9f678b6",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "b3ff718aa605b67f:link_entities",
+"text_sha1": "806824799a22",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "8ca3e9d5deeb99fd:Dappier",
+"text_sha1": "86734120ccc9",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "b7aa761dcca17c6a:store_zone_selection",
+"text_sha1": "3721605ff304",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "7f077bd40581d87e:create_custom_spread",
+"text_sha1": "01ee051009c2",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "8e62faf85b5237f7:get_help",
+"text_sha1": "e7634dbf54f8",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "34bb3bb8cf3f7d22:reference_get_corporate_actions",
+"text_sha1": "994a3a9b919d",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "00dd434306a65b94:build_request_to_find_users_posts_by_sec_user_id",
+"text_sha1": "fe41b96f8fa0",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "aaa4285d1f7ce6bd:requirement_manager",
+"text_sha1": "db019cc6481d",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "3be3633d443d1133:get_triage_summary",
+"text_sha1": "b4232032c3fc",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "2ef262dd62a02ed1:zotero_get_recent",
+"text_sha1": "c13a1b0cf8a2",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "4d28bcd45c7a42aa:get_priority",
+"text_sha1": "c121942cd279",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "03e888077ecb49bf:get_component",
+"text_sha1": "2b0c7672a7cb",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "9a3f337836592097:remember_location",
+"text_sha1": "75c6671f118e",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "cd550f3a92ed197e:ping",
+"text_sha1": "f268015b813a",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "0b5822decef3dfca:pdal_pipeline",
+"text_sha1": "c040edc8cb34",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "99b805606907ad88:search-code.ts",
+"text_sha1": "15e26d0dcfd6",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "51d28ba111ab5c92:add-test-steps",
+"text_sha1": "bd0c963819af",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "643c8c1bb9422038:hubspot-get-engagement",
+"text_sha1": "fe4fa2b67781",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "794a9c9b02bea460:upgrade_to_pro",
+"text_sha1": "9693265dc615",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "acb0508b96276f7a:get_hand_value",
+"text_sha1": "46371abacfb1",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "3158492410bb8436:calculate_commutator",
+"text_sha1": "1493e91d27a3",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "41a127de49d2ba88:project_export_doc",
+"text_sha1": "539f67a5a25f",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "110f23dab3b84ee6:create_invoice",
+"text_sha1": "d94ed04e9e4e",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "402f5603c28a675b:maintenance",
+"text_sha1": "ea00c2870492",
+"underspecified": 0,
+"destructive": 1
+},
+{
+"tool_id": "430173568d14910e:list_databases",
+"text_sha1": "2b15012fb00e",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "8886ae143dcb4f0e:collect_literature_target_evidence",
+"text_sha1": "b2bcdd1ed9fe",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "b7645e0c694fa6b2:twittershots",
+"text_sha1": "d909233d13a0",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "4ad770e4dda2430d:list_projects",
+"text_sha1": "b82ca3600102",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "88794ac35c36c4a3:httpPoll__fetch_now",
+"text_sha1": "370ebd7219ef",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "fd3064c997adf14d:Chatlayer MCP Server",
+"text_sha1": "dc0fff3aa243",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "7735f8b0d656b649:upload_file",
+"text_sha1": "70921cd6e5d9",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "d9e1d78f0af6f6ac:yith_commit_work",
+"text_sha1": "70ac037da703",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "1bafdeb301ef3cc1:oast get",
+"text_sha1": "636e11568f2c",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "e362ca474333b336:generate_referral_status_snippet",
+"text_sha1": "92fa842d1d02",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "2512abd8623f2bf0:jira_transition_issue",
+"text_sha1": "09ff46e8b696",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "b6b5f1f6dfe1fe57:search_academic_content",
+"text_sha1": "794e5b37c1c3",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "a6085f712c35dd59:create_process",
+"text_sha1": "64262b5772a9",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "c8e01525dbb6800f:mbotBackward",
+"text_sha1": "ba3a41b21dcf",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "bf1c470780b5f068:dataflow_analyze",
+"text_sha1": "c8d1cdb47a2e",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "9198b9c7b8d9a80c:context_get",
+"text_sha1": "4a92b6b5cc0e",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "fd6b589a2a8e45fd:reorder_task",
+"text_sha1": "feb456024495",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "6b0f306a54c61fac:get_orders",
+"text_sha1": "0ec203c15cf5",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "58d3a3f9ac6a62f5:image-dressing",
+"text_sha1": "fb77474aea37",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "1e36eb0bced131f8:install_server",
+"text_sha1": "55b30cac10f1",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "845361db3bcda844:enqueue_workflow",
+"text_sha1": "20eadf0ecdfd",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "c6ac6e3793f2a600:triggerWorkflow",
+"text_sha1": "d98698df7d8c",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "a2110768d35ae31c:create_sheet",
+"text_sha1": "a9e7b1321151",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "e918b3d5dc72a358:pull",
+"text_sha1": "73690a04ff1a",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "2f77c48f846b4aa9:get_image_info",
+"text_sha1": "ed8d69295767",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "7a7836244eaab54d:update_query",
+"text_sha1": "537b251b4c7f",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "804b36e60bb54afe:gitingest",
+"text_sha1": "692b4bb57905",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "23dcf10b302c38cb:memory_recall",
+"text_sha1": "65033698c2e4",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "40a85cd90795e2e3:merge-pdfs",
+"text_sha1": "f2fb5a797954",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "d80e75adb90a84e7:Completion/LLM",
+"text_sha1": "8bf48fd2cb9b",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "09f861c4000d0cf0:help",
+"text_sha1": "7412016f76e2",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "7219297931dfadb7:abp_get_themes",
+"text_sha1": "c1c6b09dc0d8",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "e97239c7a2cbf1e1:list_domains",
+"text_sha1": "c6b6152ff0f7",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "edd7c6142f8fe29b:plant_info",
+"text_sha1": "dff384e82967",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "23e992c6fb6cce0a:list_codex_tasks",
+"text_sha1": "6faff61935b7",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "23e9690f3ab30af1:bizflycloud_get_volume",
+"text_sha1": "50452c482d4d",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "d19d2682bd8b3c10:ae.scanPropertyTree",
+"text_sha1": "7361115a954b",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "50a5dc9a7b1c4642:delete_state",
+"text_sha1": "63eb772ce5a1",
+"underspecified": 1,
+"destructive": 1
+},
+{
+"tool_id": "a1bfd646ba0ffa41:get_threejs_category",
+"text_sha1": "bac1cb1de1b6",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "b1afc3ce0ecafcaa:send_to_intruder",
+"text_sha1": "dbf37b12c1ad",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "e533110b12ddc206:get_top_boosted_tokens",
+"text_sha1": "33e246986e06",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "a9e1e5e0b8d8f270:espconnect_device_status",
+"text_sha1": "bf1678f33d65",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "ce406c994bfedb7c:get-unread-count",
+"text_sha1": "b23b47f3eb08",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "e22a7e118bf43805:harvest_optimization",
+"text_sha1": "c1a38e98f713",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "b675712688ce6457:update_block_content",
+"text_sha1": "a9efa4d8b188",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "5eb8a92acd994d8c:get_ticket",
+"text_sha1": "1b65a71d9f10",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "57a8d0981ce021cf:claude-md-maintenance",
+"text_sha1": "175c32cef346",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "9d064def6d74b592:format_validate",
+"text_sha1": "0a94bf24a6b3",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "59a9db734f026bf8:Get project state",
+"text_sha1": "29aeb478c50e",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "2326e429c47740ad:barcodes",
+"text_sha1": "f2ad4bc7ca3e",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "990a05f4628f05de:list_lag_interfaces",
+"text_sha1": "956f8ced0864",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "ff09bfbe3bea60f0:search_threats",
+"text_sha1": "1ea567e089f7",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "a9f09d065903ce01:catalog_snapshot_restore",
+"text_sha1": "c41e94b8f525",
+"underspecified": 0,
+"destructive": 1
+},
+{
+"tool_id": "8e2ea5d4c86ab588:crem_attack_surface_local_app_executable_files_list",
+"text_sha1": "c830df7e8f36",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "52bc9e55315a29e9:type_info",
+"text_sha1": "2da4c27fd66d",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "fd3064c997adf14d:Originality.ai MCP Server",
+"text_sha1": "eb82e4c28f26",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "d9c7ade6db01231e:tan",
+"text_sha1": "31527c91a65a",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "0f1f5328bf485331:venicestats_vesting",
+"text_sha1": "76b8b9de0f3e",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "8c865e3a301530c0:import_markdown",
+"text_sha1": "24774470ac94",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "46b3d4dc7b86be15:generate_embeddings",
+"text_sha1": "b67c3e4f3c49",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "90ebd8ccced218ff:list_intune_devices",
+"text_sha1": "4a6a30cc7588",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "d287394a2d3b1f05:selectOption",
+"text_sha1": "dcd47a3b149a",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "b1bf2c3341aa4d73:sheets_set_data_validation",
+"text_sha1": "e143aab7ab33",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "a40ac9e7ddccf563:campfire_strike_argument",
+"text_sha1": "52791e5003c1",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "4150a7aea6daec08:check_syntax_edt",
+"text_sha1": "fbafe8c125b5",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "7b9ba1c8fc0bb439:get_page_export",
+"text_sha1": "40dba833a4d7",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "222b2602235afde2:step_into",
+"text_sha1": "f5715a48b8ed",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "123e780cd87c4fc0:get_concept_detail",
+"text_sha1": "ea14114c3cdc",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "2f2c5723ec20bb22:merge_pull_request",
+"text_sha1": "51935563cfb2",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "b182cf92295e74db:get_user",
+"text_sha1": "f58e404c5f0a",
+"underspecified": 0,
+"destructive": 0
+},
+{
+"tool_id": "22f3fbdb5d6fbfdf:workflow.delegate",
+"text_sha1": "67beb6879364",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "c5ec5f17e9614ceb:advanced_email_search",
+"text_sha1": "4b1760b6ada9",
+"underspecified": 1,
+"destructive": 0
+},
+{
+"tool_id": "ad0b5241377fdbdc:PatientTool",
+"text_sha1": "3265675216e9",
+"underspecified": 0,
+"destructive": 0
+}
+],
+"destructive_sample": [
+{
+"tool_id": "36874c59051a0563:wpmcp-example/delete-term",
+"text_sha1": "c37133341b37",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "ac66de120655fa84:dataverse_delete_row",
+"text_sha1": "76cf8a569f0f",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "8264550333bf4c44:untriage_card",
+"text_sha1": "ba024b7e0e81",
+"destructive": 0,
+"safety_cue": 0
+},
+{
+"tool_id": "de7b8fe857895933:docs_update_doc",
+"text_sha1": "69bf2994d4ee",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "f922f477afcd53c5:clear_password",
+"text_sha1": "2f10b2d97ba9",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "15c0800d3390dbc5:remove_annotation",
+"text_sha1": "414bc82eb79b",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "1a96245a0a0307dd:gcal_delete_event",
+"text_sha1": "e0ff53479757",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "63a23b2c09eb80f4:list_allowed_directories",
+"text_sha1": "921e76f740d1",
+"destructive": 0,
+"safety_cue": 0
+},
+{
+"tool_id": "b1b91336e1572012:wikijs_batch_delete_pages",
+"text_sha1": "41ef2803c594",
+"destructive": 1,
+"safety_cue": 1
+},
+{
+"tool_id": "052bd9339c2e30e6:manage_vouchers",
+"text_sha1": "e260f2e4476b",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "13302a0f789e7612:gemini_search",
+"text_sha1": "b3a458e4c6a9",
+"destructive": 0,
+"safety_cue": 0
+},
+{
+"tool_id": "5790ec80cb9e571e:invoice_delete",
+"text_sha1": "b9cebfc485ef",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "74f01a7b92be0299:delete_project",
+"text_sha1": "d0137344101b",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "7b24541e318d8f63:deleteTagByID",
+"text_sha1": "a1e2bfca8841",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "b10658c40aae02ec:KIROK_forget",
+"text_sha1": "df1c279db895",
+"destructive": 1,
+"safety_cue": 1
+},
+{
+"tool_id": "cc8b48e8199a755c:kill_session",
+"text_sha1": "250ad4abe722",
+"destructive": 0,
+"safety_cue": 0
+},
+{
+"tool_id": "644571299a71c9c9:cortex_delete",
+"text_sha1": "4b62b4edeea7",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "75b08eaceccf4813:delete_feed_item",
+"text_sha1": "a7843bd618b1",
+"destructive": 1,
+"safety_cue": 1
+},
+{
+"tool_id": "1db6143acd67a5ef:gmail_message_send",
+"text_sha1": "e06afc9828a6",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "3211d32b255babe9:remove_context_link",
+"text_sha1": "d7f99f8f321f",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "acee652253f33140:collection remove",
+"text_sha1": "dd81f358c93b",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "96dff7fa67c39b1d:delete_email",
+"text_sha1": "142b27314846",
+"destructive": 1,
+"safety_cue": 1
+},
+{
+"tool_id": "07babb3a4774cbfc:delete_document",
+"text_sha1": "f09002e0fca1",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "607eb96245b5bfe1:delete_style",
+"text_sha1": "d3cac2d5a6a2",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "286a2f8bda4092cb:delete_memory",
+"text_sha1": "d1b86f960979",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "37819e20c027cf81:wallet_sign_transaction",
+"text_sha1": "d3b731fc6474",
+"destructive": 0,
+"safety_cue": 0
+},
+{
+"tool_id": "75134244d6609a1a:query users by email",
+"text_sha1": "df8cc7be12eb",
+"destructive": 0,
+"safety_cue": 0
+},
+{
+"tool_id": "1a525844f10c8438:assets-move",
+"text_sha1": "c21b49d2920a",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "f7c2051d98122f5b:affinity_add_note",
+"text_sha1": "b55359f307ad",
+"destructive": 0,
+"safety_cue": 0
+},
+{
+"tool_id": "132965c53a0ce53c:delete_profile",
+"text_sha1": "ea40a004c834",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "4852c4422a65a72b:kanban_delete_task",
+"text_sha1": "2caf976619d1",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "4db0d4244984849c:teachers_emails",
+"text_sha1": "2be4d6130f5f",
+"destructive": 0,
+"safety_cue": 0
+},
+{
+"tool_id": "6640b4f5aadba926:blender_delete_object",
+"text_sha1": "82ec413bfb16",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "b07fa9c3eba1aa12:delete_file",
+"text_sha1": "e9b16651be9b",
+"destructive": 1,
+"safety_cue": 1
+},
+{
+"tool_id": "96a627f455ec4bf7:find_user",
+"text_sha1": "e202de020e87",
+"destructive": 0,
+"safety_cue": 0
+},
+{
+"tool_id": "c3f4710a53678b37:send_message",
+"text_sha1": "fccc695aef59",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "e0d94d92c923d5d4:delete_attribute",
+"text_sha1": "812016b64cac",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "63f717bd86e7241b:delete_script",
+"text_sha1": "eca60738bc23",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "5c5cff031c1ef974:ssh_kill",
+"text_sha1": "c7baefdcff62",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "7ce7a13a26d73ecc:bulk_transfer_show",
+"text_sha1": "6e52f468f929",
+"destructive": 0,
+"safety_cue": 0
+},
+{
+"tool_id": "eb18b10e14e517a0:m365_send_chat_message",
+"text_sha1": "c33785d24df5",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "158e44e55306b0fd:send_slack_warning",
+"text_sha1": "6417908718d6",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "a8448abffd3a3108:remove_intent",
+"text_sha1": "2137b4113665",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "6c00396db70e40a9:add_conversation_note",
+"text_sha1": "ebddffbadc00",
+"destructive": 0,
+"safety_cue": 0
+},
+{
+"tool_id": "b0eb5e696210e30f:delete_text",
+"text_sha1": "1e25dc32a01a",
+"destructive": 1,
+"safety_cue": 1
+},
+{
+"tool_id": "56dcde25c7c4306c:logout",
+"text_sha1": "0aca12f31ad9",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "edaa4ac2d4315ef6:databasus_delete_notifier",
+"text_sha1": "4f0a05de6d92",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "4dea25c4234393ed:delete_tag",
+"text_sha1": "20182fd76f24",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "f4fd283a33658f9b:device_command",
+"text_sha1": "08f5bc2566f3",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "c149e4f37f16ce1d:org_delete",
+"text_sha1": "267cbaa2b521",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "037de9d3b617eb08:imap_update_message_flags",
+"text_sha1": "e101a05c7fd9",
+"destructive": 0,
+"safety_cue": 0
+},
+{
+"tool_id": "7caebb03bb73015d:mc_deleteTemplate",
+"text_sha1": "2c06a601d658",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "4bdc17932ca4098a:write_file",
+"text_sha1": "b38ac6733972",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "33b04d5c16a42879:get_drop_rule",
+"text_sha1": "432b94bf3f96",
+"destructive": 0,
+"safety_cue": 0
+},
+{
+"tool_id": "4b83d87ece131538:import_documents",
+"text_sha1": "5f42edcebdcb",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "4794b06a9f7fcfa1:deploy_preview",
+"text_sha1": "8e06a10f3ede",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "a61ad43e38670b81:create_user",
+"text_sha1": "5a815e4be813",
+"destructive": 0,
+"safety_cue": 0
+},
+{
+"tool_id": "11cb06ece60fba7f:send_to_session",
+"text_sha1": "f8e8b4deebaa",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "29a41cafb93c0566:delete_attachment",
+"text_sha1": "f01139f5b622",
+"destructive": 1,
+"safety_cue": 0
+},
+{
+"tool_id": "e15ed9c85cffb1da:web3_subscribe",
+"text_sha1": "67f4650fc675",
+"destructive": 1,
+"safety_cue": 0
+}
+],
+"annotator_note": "Added after review N1: these are LLM labels, not human labels. The annotator (the Developer agent) also wrote the rules, so it knows the thresholds and lexicons; all 60 destructive_sample items were rule-flagged by construction. Not shown rule outputs or judge labels/notes. 160 items were labelled in about 80 s. A human second annotation is pending."
+}
