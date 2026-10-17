@@ -3,3 +3,4 @@ __pycache__/
 data/raw/
 *.log
 .pytest_cache/
+results/tool_flags.parquet
