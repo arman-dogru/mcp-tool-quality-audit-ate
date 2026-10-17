@@ -964,5 +964,6 @@
 "destructive": 1,
 "safety_cue": 0
 }
-]
+],
+"annotator_note": "Added after review N1: these are LLM labels, not human labels. The annotator (the Developer agent) also wrote the rules, so it knows the thresholds and lexicons; all 60 destructive_sample items were rule-flagged by construction. Not shown rule outputs or judge labels/notes. 160 items were labelled in about 80 s. A human second annotation is pending."
 }

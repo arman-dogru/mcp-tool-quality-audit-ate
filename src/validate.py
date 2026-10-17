@@ -1,4 +1,4 @@
-"""Agreement of the v2 heuristics with blind hand labels (data/hand_labels_v2.json), plus the v1 dev set for reference.
+"""Agreement of the v2 heuristics with LLM-annotator labels (data/hand_labels_v2.json; annotator = the agent that wrote the rules), plus the v1 dev set for reference.
 Labels are keyed by tool_id and verified against a hash of name+description, so they cannot silently drift."""
 import hashlib
 import json

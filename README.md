@@ -5,10 +5,10 @@ A CPU-only audit of **694,411 MCP tool descriptions** (from 70,927 servers; ATE'
 > Independent analysis. It is not affiliated with or endorsed by Cohere Labs, and it reports only numbers computed here. The source announcement is [Cohere: automations' early footprint](https://cohere.com/blog/automations-early-footprint).
 
 ## Headline (the Results tables are generated from `results/*.json` by `src/report.py`; numbers quoted here come from them)
-1. **Description length, not the "underspecified" flag, carries the signal.** Raw, underspecified tools get a "good" judge label 0.96 pp less often (2.6% base rate), almost exactly what length alone predicts (−0.99 pp). Holding exact word count fixed, the gap flips to **+0.38 pp [+0.05, +0.73]**, and drops to +0.17 pp [−0.10, +0.52] once duplicate descriptions are removed. The flags add nothing reliable beyond length.
+1. **Description length, not the "underspecified" flag, carries the signal.** Raw, underspecified tools get a "good" judge label 0.96 pp less often (2.6% base rate), almost exactly what length alone predicts (−0.99 pp). Holding exact word count fixed, the gap flips to **+0.38 pp [+0.05, +0.73]**. All tools under 6 words are flagged by definition, so this estimate comes only from the ~12.8k flagged tools with 6+ words (effectively the `underspecified_content` contrast). It and drops to +0.17 pp [−0.10, +0.52] once duplicate descriptions are removed. The flags add nothing reliable beyond length.
 2. **The judge outcome is partly circular.** ATE's judge reads the same name and description that the flags score, and for empty descriptions its notes often say so. So `match_quality` here means *"could an LLM judge confirm a task match from the name and description"*, not tool usefulness.
-3. **Prevalence is overstated by the rule.** The rule flags 49% of tools as underspecified; on a fresh blind sample of 100, the hand-labelled rate is 35% [26, 45], and the rule's accuracy equals the majority-class baseline (κ 0.31).
-4. **Destructive tools rarely say they are destructive.** On a blind hand-checked sample, 87% [74, 94] of truly destructive tools carry no safety cue in their prose. That is a claim about prose descriptions only: MCP puts behaviour hints such as `destructiveHint` in tool `annotations`, which ATE does not carry.
+3. **Prevalence is overstated by the rule.** The rule flags 49% of tools as underspecified; on a fresh sample of 100 tools LLM-labelled by the agent that wrote the rules (not shown rule outputs or judge labels), the labelled rate is 35% [26, 45], and the rule's accuracy equals the majority-class baseline (rule-vs-LLM-annotator κ 0.31, not inter-annotator agreement). A human second-annotator check is pending.
+4. **Destructive tools rarely say they are destructive.** On a sample of 60 rule-flagged tools LLM-labelled by the agent that wrote the rules, 87% [74, 94] of those it judged truly destructive carry no safety cue in their prose (an LLM-annotator estimate; human check pending). That is a claim about prose descriptions only: MCP puts behaviour hints such as `destructiveHint` in tool `annotations`, which ATE does not carry.
 
 ## Motivation
 An agent only sees a tool through its name, description and schema. If the description is empty, a restatement of the name, or vague, the model has to guess what the tool does and which arguments it takes. Destructive tools whose descriptions don't say so are a separate design risk. ATE includes LLM-judge labels (`match_quality`: good/partial/bad) for whether each tool performs its best-matched O\*NET task. This project checks how far those labels relate to description quality, and is explicit about what they can and cannot show.
@@ -22,7 +22,7 @@ An agent only sees a tool through its name, description and schema. If the descr
 - **Primary analysis:** for each flag, the difference in good and bad rates between flagged and unflagged tools **within exact word-count strata** (0..40+), combined with Mantel-Haenszel weights. 95% CIs from a **cluster bootstrap over servers** (multinomial server weights, B=500, seed 0). Raw differences are shown for comparison.
 - **Sensitivity:** (a) exact (name, description) duplicates removed; (b) tools whose judge notes say the description is missing or thin removed.
 - **Description-independent outcome:** server GitHub stars (≥10), stratified by the server's median description length. This is popularity, not usefulness, but it does not come from reading the description.
-- **Validation (`src/validate.py`, `data/hand_labels_v2.json`):** rules v2 were committed (d1e14ad) **before** two fresh samples were drawn, disjoint from the v1 sample: a random 100 tools (underspecified, destructive) and 60 rule-flagged destructive tools (truly destructive?, safety cue?). Labels are keyed by `tool_id` and checked against a hash of name+description. Annotator and blinding are documented in the JSON.
+- **Validation (`src/sample_blind.py`, `src/validate.py`, `data/hand_labels_v2.json`):** rules v2 were committed (d1e14ad) **before** two fresh samples were drawn (`src/sample_blind.py` redraws them exactly), disjoint from the v1 sample: a random 100 tools (underspecified, destructive) and 60 rule-flagged destructive tools (truly destructive?, safety cue?). Labels are keyed by `tool_id` and checked against a hash of name+description. **The labels are LLM labels, not human labels:** the single annotator is the Developer agent, which also wrote the rules. It was not shown rule outputs, judge labels or judge notes, but it knows the rules (6-word threshold, lexicons), and all 60 destructive-sample items were rule-flagged by construction, so "blind" is weak. The file name `hand_labels_v2.json` is historical. κ values are rule-vs-LLM-annotator agreement, not inter-annotator agreement. A human second annotation (30-50 items, blind to LLM labels and rule outputs) is pending.
 - **History note:** in v1, the CJK word-count rule was changed *after* the first 40 tools were labelled, using one of those labelled items. The v1 README claimed the rule was fixed before labelling; that was wrong. Those 40 labels are kept only as a dev set (`data/hand_labels_v1_dev.json`) and are not used as a held-out estimate.
 
 ## Results
@@ -108,33 +108,34 @@ Hand check (blind n=60 sample of rule-flagged tools): 46 are truly destructive (
 1. **Length, not the composite flag, drives the raw association.** Inside exact-length strata the underspecified gap in "good" is small and positive, and it vanishes when duplicate descriptions are removed. `name_echo` and `underspecified_content` behave the same way. The honest summary: *shorter descriptions get fewer "good" labels from ATE's judge; the underspecification flags don't add anything reliable beyond length.*
 2. **What the outcome can and can't say.** The judge sees the same text as the flags. With empty descriptions, its notes cite the missing description about 9% of the time, and those tools are almost never rated good. Removing those tools doesn't change the length-controlled result, but the circularity can't be removed from inside ATE, since there is no name-only or execution-based label. These results are about judge confirmability, not usefulness.
 3. **Popularity doesn't rescue the flag either.** Once median description length is held fixed, servers whose tools are mostly underspecified are slightly *more* likely to have ≥10 stars, not less. Server size (more tools → more stars, more chances to be flagged) is a likely confounder that isn't controlled here, so read this as "no evidence of a popularity penalty", not as a positive effect.
-4. **Destructive tools and safety cues.** The rule says 95% of destructive-flagged tools have no cue, and 92% even among descriptions of 15+ words. The blind hand check (23% of rule hits are not truly destructive; the rule misses some cues such as "moves to trash" and fires on "Send a warning") gives 87% [74, 94]. Expecting "irreversible" wording in a median 6-word description is a high bar, and MCP intends this information to live in `annotations` (`destructiveHint`, `readOnlyHint`) and in client-side confirmation, neither of which ATE records. So the finding is narrower than v1 claimed: **the prose rarely warns**, not "the tools are unsafe".
+4. **Destructive tools and safety cues.** The rule says 95% of destructive-flagged tools have no cue, and 92% even among descriptions of 15+ words. The LLM-annotator check (23% of rule hits are not truly destructive; the rule misses some cues such as "moves to trash" and fires on "Send a warning") gives 87% [74, 94]. Expecting "irreversible" wording in a median 6-word description is a high bar, and MCP intends this information to live in `annotations` (`destructiveHint`, `readOnlyHint`) and in client-side confirmation, neither of which ATE records. So the finding is narrower than v1 claimed: **the prose rarely warns**, not "the tools are unsafe".
 5. **Popularity gradient is a length gradient.** The composite falls from 50% (0–9 stars) to 38% (1000+ stars), but `underspecified_content`, the part that isn't a length threshold, is flat at 11–12% across tiers.
 6. **Other flags.** Destructive tools are rated "bad" about 7 pp more often at any length, and mutating tools are rated "good" about 2 pp more often. That says more about which O\*NET tasks such tools get matched to than about description quality. `overclaim` (now only 0.4% of tools) and `vague` don't behave like risk markers.
 
-## Error analysis (blind samples)
+## Error analysis (LLM-labelled validation samples)
 - **Underspecified false positives** are terse but clear tools: "Get user details" (`get_user`), "Merge a pull request", "Tangent" (`tan`), "Move the robot backward". A 6-word threshold is a recall-oriented screen, not a judgement.
 - **Underspecified false negatives** are long but uninformative: server-level marketing blurbs pasted into every tool ("Power your business with #AI…"), or descriptions of a sibling tool.
 - **Destructive false positives** come from names or descriptions that mention a destructive verb without doing it: `bulk_transfer_show`, `get_drop_rule`, `wallet_sign_transaction` ("…without sending it"), `list_allowed_directories` (a server blurb listing `write_file`).
 - **Safety-cue errors:** the rule misses recoverability cues ("Move emails to trash", "with backup", "using track changes", "safety checks") and fires on non-cues ("Send a **warning** notification", "Deploy … get a **preview** URL").
 
 ## Reproduce
+Prerequisites: `uv`, `curl`, `sha256sum` (coreutils), bash.
 ```bash
 ./reproduce.sh   # pinned deps + dataset revision, sha256 check, tests, validate, analyze (B=500), regenerate README results
 ```
-CPU-only. `analyze.py` takes ~3 CPU-minutes and ~2.1 GB peak RSS (measured with `/usr/bin/time -v`). Python 3.13, versions pinned in `requirements.txt`. `results/tool_flags.parquet` (per-tool flags, ids only) is regenerated locally and is not committed.
+CPU-only. `src/sample_blind.py` redraws the validation samples (not needed to reproduce the numbers). `analyze.py` takes ~3 CPU-minutes and ~2.1 GB peak RSS (measured with `/usr/bin/time -v`). Python 3.13, versions pinned in `requirements.txt`. `results/tool_flags.parquet` (per-tool flags, ids only) is regenerated locally and is not committed (the v1 19.8 MB copy remains in history at 614c85e; history is not rewritten).
 
 ## Limitations
 - **Circular outcome:** see Interpretation 2. There is no description-independent usefulness label in ATE.
-- The heuristics are lexical. On the blind sample, `underspecified` has precision 0.50 [0.37, 0.63] and κ 0.31 against one annotator.
-- **One annotator, and it is an LLM-based agent** (the Developer bot that wrote this repo), labelling blind to rule outputs and judge labels. No inter-annotator agreement yet.
+- The heuristics are lexical. On the LLM-labelled sample, `underspecified` has precision 0.50 [0.37, 0.63] and rule-vs-LLM-annotator κ 0.31.
+- **One annotator, and it is an LLM-based agent that also wrote the rules** (the Developer bot that wrote this repo). It was not shown rule outputs or judge labels, but it knows the rules. No human labels and no inter-annotator agreement yet; a human second-annotator check is pending.
 - ATE's `tools` table has no input schemas and no MCP `annotations`, so `no_io_spec` and the safety-cue analysis only cover prose.
 - `non_latin_script` measures script, not language: French or Portuguese descriptions count as Latin.
 - Associations are not causal. Server size is not controlled in the popularity analysis.
 
 ## Data and attribution
 - Code: MIT (`LICENSE`). The license does not cover the data.
-- ATE dataset: CohereLabs/ATE on the Hugging Face Hub, revision `4b567ba98acc6ddf27b2abb9004844581083c5d8`. Its Hub card says the dataset license has not been set yet, so this repo stores only tool_ids, text hashes, labels and aggregate numbers. No upstream names or descriptions are committed.
+- ATE dataset: CohereLabs/ATE on the Hugging Face Hub, revision `4b567ba98acc6ddf27b2abb9004844581083c5d8`. Its Hub card says the dataset license has not been set yet, so this repo stores only tool_ids, text hashes, labels and aggregate numbers. No descriptions are committed. Note that ATE `tool_id`s embed the tool name (`<hash>:<tool_name>`), so names are recoverable from the ids.
 - O\*NET: task statements come from the O\*NET 29.2 Database by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA), used under the CC BY 4.0 license. O\*NET® is a trademark of USDOL/ETA.
 - Suggested ATE citation (from the dataset card):
 ```bibtex
@@ -147,7 +148,7 @@ CPU-only. `analyze.py` takes ~3 CPU-minutes and ~2.1 GB peak RSS (measured with 
 ```
 
 ## Next steps
-- A second human annotator on the blind samples, for inter-annotator κ.
+- **Pending:** a human second annotation of 30-50 items (e.g. 25 from the random 100 and 20 from the 46 destructive), blind to the LLM labels and rule outputs, reporting human-vs-LLM κ and human-vs-rule agreement.
 - A description-independent outcome: re-run a judge on **name-only** inputs for a sample, or execute a sample of tools.
 - Pull real input schemas and `annotations` from servers' GitHub repos for a sample, to measure schema completeness and `destructiveHint` use directly.
 - Control for server size (tool count) in the popularity analysis.

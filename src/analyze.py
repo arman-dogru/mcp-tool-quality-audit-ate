@@ -10,7 +10,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from metrics import FLAGS, LENGTH_DEFINED, RULES_VERSION, score
+from metrics import DESTRUCTIVE_NO_EMAIL, FLAGS, LENGTH_DEFINED, RULES_VERSION, _name_text, score
 
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw"
@@ -105,7 +105,8 @@ def associations(j: pd.DataFrame, flags, B: int, seed: int = SEED) -> dict:
     for f in flags:
         x = xs[f].astype(bool)
         d = dict(n_flagged=int(x.sum()), length_strata_used=int(keep[f].sum()),
-                 tools_in_used_strata=int(np.isin(s, np.flatnonzero(keep[f])).sum()))
+                 tools_in_used_strata=int(np.isin(s, np.flatnonzero(keep[f])).sum()),
+                 n_flagged_in_used_strata=int((x & np.isin(s, np.flatnonzero(keep[f]))).sum()))
         for o in ("good", "bad"):
             d[f"{o}_if_flag"] = round(float(ys[o][x].mean()), 4) if x.any() else None
             d[f"{o}_if_not"] = round(float(ys[o][~x].mean()), 4)
@@ -182,6 +183,13 @@ def destructive_cue(t: pd.DataFrame, B: int, seed: int = SEED) -> dict:
         out[k] = dict(n=len(sub), no_cue=round(float(y.mean()), 4),
                       no_cue_ci95=ci([(w * y).sum() / w.sum() for w in (server_weights(codes, len(u), rng) for _ in range(B))]))
     out["mutating_share_of_tools"] = round(float(t.mutating.mean()), 4)
+    # Ablation (review N4): destructive flags triggered only by "email" forms (mostly the noun). Point estimates, no RNG use.
+    ne = np.array([bool(DESTRUCTIVE_NO_EMAIL.search(str(dd or "")) or DESTRUCTIVE_NO_EMAIL.search(_name_text(n)))
+                   for n, dd in zip(d.tool_name, d.description)])
+    out["email_only_ablation"] = dict(n_email_only=int((~ne).sum()), share_of_destructive=round(float((~ne).mean()), 4),
+                                      n_without_email=int(ne.sum()),
+                                      no_cue_without_email=round(float(d.destructive_no_safety_cue[ne].mean()), 4),
+                                      no_cue_email_only=round(float(d.destructive_no_safety_cue[~ne].mean()), 4))
     return out
 
 

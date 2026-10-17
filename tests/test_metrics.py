@@ -58,7 +58,7 @@ def test_word_count_unicode():
     assert n_words("Récupère les données météo pour une ville") == 7
     assert n_words("a b c") == 3  # one-letter words count
     assert n_words("🚀🚀🚀🚀") == 0  # emoji are not words
-    assert n_words("列出所有表，显示表名和行数") == 6  # 12 Han chars / 2
+    assert n_words("检索反洗钱名单并返回结果列表") == 7  # 14 Han chars / 2
 
 
 def test_non_latin_script_not_language():

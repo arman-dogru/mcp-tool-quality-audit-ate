@@ -39,6 +39,8 @@ def build(M: dict, V: dict) -> str:
     lo = M["length_only_prediction"]["underspecified"]
     L += ["", f"Length alone predicts a raw gap of {pp(lo['good'])} in good and {pp(lo['bad'])} in bad for `underspecified`; "
           f"the observed raw gaps are {pp(a['good_diff_raw'])} and {pp(a['bad_diff_raw'])}. "
+          f"Within-length estimates use only strata where both arms exist: for `underspecified` that is {a['n_flagged_in_used_strata']:,} of {a['n_flagged']:,} flagged tools "
+          "(all 6+ words, since every tool under 6 words is flagged). "
           f"{pct(M['underspecified_share_lt6_words'])} of underspecified tools are empty or under 6 words.", ""]
     sd, sn = M["sensitivity_dedup_name_desc"], M["sensitivity_notes_not_citing_description"]
     L += ["**Sensitivity checks** (length held fixed, B=100):", "",
@@ -66,7 +68,7 @@ def build(M: dict, V: dict) -> str:
     L += ["", "### Prevalence (analysis set)", f"{M['n_tools']:,} tools from {M['n_servers']:,} servers (ATE `in_analysis_set == 1`); "
           f"median description {M['median_words']:.0f} words; {M['n_matched']:,} have a judge label "
           f"({', '.join(f'{k} {pct(v)}' for k, v in M['match_quality_dist'].items())}).", "",
-          "| Flag | Rule flags | Hand-label estimate (blind random n=100) |", "|---|---|---|"]
+          "| Flag | Rule flags | LLM-annotator estimate (random n=100) |", "|---|---|---|"]
     U = V["underspecified_random_n100"]; Dr = V["destructive_random_n100"]
     for f in ["underspecified", "is_empty", "too_short", "name_echo", "no_io_spec", "vague", "overclaim", "destructive", "mutating",
               "destructive_no_safety_cue", "non_latin_script"]:
@@ -79,16 +81,20 @@ def build(M: dict, V: dict) -> str:
           f"{D['all_destructive']['n']:,} destructive-flagged tools carry no safety cue; {pct(D['trigger_in_description']['no_cue'])} when the "
           f"destructive verb is in the description, {pct(D['trigger_in_name_only']['no_cue'])} when it is only in the name, and "
           f"{pct(D['description_15plus_words']['no_cue'])}{cipct(D['description_15plus_words']['no_cue_ci95'])} among descriptions of 15+ words.",
-          f"Hand check (blind n={P['n']} sample of rule-flagged tools): {P['k']} are truly destructive (precision {pct(P['precision'])}{cipct(P['ci95'])}); "
+          f"LLM-annotator check (n={P['n']} sample of rule-flagged tools, labelled by the agent that wrote the rules; human check pending): {P['k']} judged truly destructive (precision {pct(P['precision'])}{cipct(P['ci95'])}); "
           f"of those, **{H['k']}/{H['n']} = {pct(H['share'])}{cipct(H['ci95'])} carry no safety cue**.", "",
-          "### Heuristic validation (blind, rules frozen before sampling)",
-          "| Check | n | Accuracy (majority baseline) | Precision [95% CI] | Recall [95% CI] | Cohen's κ |", "|---|---|---|---|---|---|"]
+          "### Heuristic validation (rules frozen before sampling; labels by an LLM annotator that wrote the rules, not shown rule outputs or judge labels)",
+          "| Check | n | Accuracy (majority baseline) | Precision [95% CI] | Recall [95% CI] | Cohen's κ (rule vs LLM annotator) |", "|---|---|---|---|---|---|"]
     for k, lab in (("underspecified_random_n100", "underspecified, random sample"), ("destructive_random_n100", "destructive, random sample"),
                    ("safety_cue_rule_vs_hand_on_truly_destructive", "safety_cue, truly destructive tools"),
                    ("v1_dev_set_underspecified_n40_NOT_HELD_OUT", "underspecified, v1 dev set (not held out)")):
         r = V[k]
-        L.append(f"| {lab} | {r['n']} | {r['accuracy']:.2f} ({r['majority_class_accuracy']:.2f}) | {r['precision']:.2f}{[round(x, 2) for x in r['precision_ci95']]} "
-                 f"| {r['recall']:.2f}{[round(x, 2) for x in r['recall_ci95']]} | {r['kappa']:.2f} |")
+        L.append(f"| {lab} | {r['n']} | {r['accuracy']:.2f} ({r['majority_class_accuracy']:.2f}) | {r['precision']:.2f} {[round(x, 2) for x in r['precision_ci95']]} "
+                 f"| {r['recall']:.2f} {[round(x, 2) for x in r['recall_ci95']]} | {r['kappa']:.2f} |")
+    E = D["email_only_ablation"]
+    L += ["", f"Ablation: {E['n_email_only']:,} destructive flags ({pct(E['share_of_destructive'])}) are triggered only by \"email\" forms, mostly the noun "
+          f"(`list_emails`, `get_email`). Without them the rule's no-cue rate is {pct(E['no_cue_without_email'])} (email-only: {pct(E['no_cue_email_only'])}). "
+          "The lexicon is unchanged so the tables stay comparable; the LLM-annotator 87% is unaffected because its sample was labelled per tool."]
     L += ["", "### Underspecification by server popularity (tool-weighted, cluster-bootstrap CI)",
           "| GitHub stars | Servers | Tools | Median words | underspecified [95% CI] | underspecified_content [95% CI] |", "|---|---|---|---|---|---|"]
     for r in M["underspecified_by_server_stars"]:

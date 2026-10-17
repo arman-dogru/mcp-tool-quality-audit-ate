@@ -43,6 +43,10 @@ IO_SPEC = re.compile(r"\b(returns?|returning|outputs?|responds? with|yields?|inp
 DESTRUCTIVE = _verb_re(["delete", "remove", "drop", "destroy", "purge", "wipe", "truncate", "overwrite", "erase", "kill",
                         "terminate", "revoke", "uninstall", "send", "email", "publish", "transfer", "pay", "purchase",
                         "buy", "refund", "deploy", "broadcast", "unsubscribe", "ban"])
+# Ablation (review N4): same lexicon without "email", whose noun use (list_emails, get_email) is not destructive.
+DESTRUCTIVE_NO_EMAIL = _verb_re(["delete", "remove", "drop", "destroy", "purge", "wipe", "truncate", "overwrite", "erase", "kill",
+                                 "terminate", "revoke", "uninstall", "send", "publish", "transfer", "pay", "purchase",
+                                 "buy", "refund", "deploy", "broadcast", "unsubscribe", "ban"])
 # State-changing but usually recoverable.
 MUTATING = _verb_re(["create", "update", "write", "modify", "edit", "insert", "post", "submit", "run", "execute",
                      "rename", "move", "upload", "upsert", "patch", "commit", "merge", "schedule", "cancel"])
