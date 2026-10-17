@@ -22,7 +22,9 @@ def name_tokens(name): return {w.lower() for w in re.split(r"[_\-\s.]+|(?<=[a-z]
 def ascii_ratio(t): return sum(c.isascii() for c in t) / len(t) if t else 1.0
 
 def score(name: str, desc: str) -> dict:
-    d = (desc or "").strip(); w = words(d); n = len(w)
+    d = (desc or "").strip(); w = words(d)
+    # CJK has no spaces: approximate word count as non-ASCII chars / 2
+    n = len(w) + sum(not c.isascii() and not c.isspace() for c in d) // 2
     nt = name_tokens(name); dl = d.lower()
     f = dict(
         n_words=n,

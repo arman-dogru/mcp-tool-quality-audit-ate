@@ -28,3 +28,7 @@ def test_side_effect_safety():
 def test_non_english_and_deterministic():
     assert score("x", "检索反洗钱名单并返回结果列表")["non_english"]
     assert score("a", "Returns a list.") == score("a", "Returns a list.")
+
+def test_cjk_length_not_counted_as_empty():
+    f = score("calibrate_tables", "列出所有表，显示表名和行数")
+    assert not f["empty"] and not f["too_short"]
