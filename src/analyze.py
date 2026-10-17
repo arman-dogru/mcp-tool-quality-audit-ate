@@ -20,7 +20,7 @@ LEN_CAP = 40          # stratum = min(n_words, LEN_CAP)
 MIN_ARM = 20          # a stratum contributes only if both arms have >= MIN_ARM tools
 # Judge notes that say the description is missing/thin, or that infer behaviour from the name alone.
 NOTES_CITE_DESC = re.compile(
-    r"\b(no|missing|without( a)?|lacks?( a)?|lacking( a)?|absent|empty|vague|minimal|sparse|brief|unclear|generic|terse)"
+    r"\b(?:no|missing|without(?: a)?|lacks?(?: a)?|lacking(?: a)?|absent|empty|vague|minimal|sparse|brief|unclear|generic|terse)"
     r" (tool )?description|description (is|was) (missing|empty|absent|vague|unclear|minimal|brief|generic)"
     r"|(tool )?name (alone|only)|only (the|its) (tool )?name|(based|inferred) (only |solely )?(on|from) (the|its) (tool )?name"
     r"|name suggests", re.I)
@@ -189,7 +189,7 @@ def main(B: int = 500):
     t = add_flags(load_tools())
     m = pd.read_parquet(RAW / "onet_matches.parquet", columns=["tool_id", "match_quality", "match_notes"])
     j = join_labels(t, m)
-    j["notes_cite_desc"] = j.match_notes.fillna("").str.contains(NOTES_CITE_DESC)
+    j["notes_cite_desc"] = j.match_notes.fillna("").str.contains(NOTES_CITE_DESC.pattern, case=False, regex=True)
     j = j.drop(columns=["match_notes", "description"])
     srv = pd.read_parquet(RAW / "servers.parquet", columns=["mcp_id", "github_stargazers_count"])
     out = dict(rules_version=RULES_VERSION, seed=SEED, bootstrap_B=B, len_cap=LEN_CAP, min_arm=MIN_ARM,

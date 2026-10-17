@@ -1,0 +1,205 @@
+{
+"protocol": "40 tools sampled with pandas .sample(40, random_state=0) from tools.parquet; one annotator; label underspecified=1 if an agent would have to guess what the tool does or which input it needs from name+description alone. DEV SET: rule v1 was revised (CJK word count) after this sample was labelled, using item 32; not a held-out estimate.",
+"items": [
+{
+"tool_id": "e1387ff54a86aa31:get_integration_guide",
+"text_sha1": "21803200bac5",
+"underspecified": 1
+},
+{
+"tool_id": "2877c0d1f9198073:delete_file",
+"text_sha1": "d137492b3d95",
+"underspecified": 1
+},
+{
+"tool_id": "bda6e0760060cea3:EmailAuth",
+"text_sha1": "6b3f0e8f21b8",
+"underspecified": 1
+},
+{
+"tool_id": "96264d932b164039:confluence_get_page_comments",
+"text_sha1": "64b235cf2c5a",
+"underspecified": 1
+},
+{
+"tool_id": "74c65e485cff6419:middle_click",
+"text_sha1": "99116229be70",
+"underspecified": 1
+},
+{
+"tool_id": "7df37ab7d485a25b:query_knowledge",
+"text_sha1": "f8d4499621e2",
+"underspecified": 0
+},
+{
+"tool_id": "1e56bc5bc9dcdb5c:get_table_schema",
+"text_sha1": "a2b27d0c8ae7",
+"underspecified": 1
+},
+{
+"tool_id": "5e8c3a04ef227af3:mcp:agentops-server:session_capture_context",
+"text_sha1": "aa6df2f4db63",
+"underspecified": 1
+},
+{
+"tool_id": "a981ed0068bc4514:trello_mark_notification_read",
+"text_sha1": "07575e3a8b57",
+"underspecified": 1
+},
+{
+"tool_id": "5155a80e5932c4be:switch_mode",
+"text_sha1": "5501be88b125",
+"underspecified": 0
+},
+{
+"tool_id": "37acc08dbcbeccfb:generate_selectors",
+"text_sha1": "b66909e20f21",
+"underspecified": 0
+},
+{
+"tool_id": "47f6d9459c01f39c:rop_gadgets",
+"text_sha1": "d7ea14d21ce5",
+"underspecified": 0
+},
+{
+"tool_id": "6c11ee8a72702523:get_library_books",
+"text_sha1": "a3508a608c3b",
+"underspecified": 0
+},
+{
+"tool_id": "efd03de92ea262d7:find_function_definition",
+"text_sha1": "35b8a4403445",
+"underspecified": 0
+},
+{
+"tool_id": "a49f9efc83f1faf2:apple-reminders",
+"text_sha1": "1a82a1561bc7",
+"underspecified": 1
+},
+{
+"tool_id": "3d85cd9e97b48139:get_muscle_readiness",
+"text_sha1": "12a6bd686f71",
+"underspecified": 0
+},
+{
+"tool_id": "bdc4b09ddf3f2fff:ecfr_search",
+"text_sha1": "4aa643c276f5",
+"underspecified": 0
+},
+{
+"tool_id": "b5a6d9c7e2f69ce9:unban_ip",
+"text_sha1": "9b134f7f1c3c",
+"underspecified": 0
+},
+{
+"tool_id": "0194ebdb5b98cc7c:mark_npc_as_met",
+"text_sha1": "ed8d103948af",
+"underspecified": 1
+},
+{
+"tool_id": "6a76ba66c65768fd:list_tasks",
+"text_sha1": "19d018c32123",
+"underspecified": 0
+},
+{
+"tool_id": "d0a24efc4a19cb39:create_article",
+"text_sha1": "8415da471bf0",
+"underspecified": 1
+},
+{
+"tool_id": "4dd2d82ea505c151:exportLatestBilling",
+"text_sha1": "6b9c736cb3f9",
+"underspecified": 0
+},
+{
+"tool_id": "4fa858efa9bfd966:get_glossary_counts",
+"text_sha1": "2ee68e398a5e",
+"underspecified": 0
+},
+{
+"tool_id": "42f5ac837a0e0efa:get_inventory_part",
+"text_sha1": "d563dfd83e99",
+"underspecified": 0
+},
+{
+"tool_id": "51307e4c8bc6885a:listApps",
+"text_sha1": "87a16412553c",
+"underspecified": 1
+},
+{
+"tool_id": "082135af1aa45db2:validateAllScripts",
+"text_sha1": "35ec51880201",
+"underspecified": 0
+},
+{
+"tool_id": "89aae1721e7a2563:get_submission_status_summary",
+"text_sha1": "eaed91f2801a",
+"underspecified": 0
+},
+{
+"tool_id": "ea528c9c2647d413:source-status",
+"text_sha1": "10f8b98923cd",
+"underspecified": 1
+},
+{
+"tool_id": "dda8dabf33b6f439:get_container_logs",
+"text_sha1": "a0474d36aebe",
+"underspecified": 0
+},
+{
+"tool_id": "454ea412f5386643:instruct_agent",
+"text_sha1": "1ef21895842d",
+"underspecified": 0
+},
+{
+"tool_id": "97449c510534732d:search_repositories",
+"text_sha1": "c4b87f0f791d",
+"underspecified": 0
+},
+{
+"tool_id": "bf2ad9f2295daecd:saleae.decode_i2c",
+"text_sha1": "da20dbc79a1c",
+"underspecified": 1
+},
+{
+"tool_id": "1edc25e45fb37cce:calibrate_tables",
+"text_sha1": "57115f0cfbc9",
+"underspecified": 0
+},
+{
+"tool_id": "a124c276b66414bd:create_control",
+"text_sha1": "c1ad87223317",
+"underspecified": 0
+},
+{
+"tool_id": "9e738aa24cba31bc:get_logs",
+"text_sha1": "9bb1fccae0b2",
+"underspecified": 0
+},
+{
+"tool_id": "d12ddb6ad4cdbf7a:get_presence",
+"text_sha1": "3892662a6959",
+"underspecified": 0
+},
+{
+"tool_id": "39a1d0ae066cef5a:reply_comment_in_feed",
+"text_sha1": "288319fd79af",
+"underspecified": 1
+},
+{
+"tool_id": "fbc22282c7aa9b73:chat",
+"text_sha1": "53e12fa82a9a",
+"underspecified": 0
+},
+{
+"tool_id": "fd6603323c82ea31:Data Validator",
+"text_sha1": "fd60bc727fb7",
+"underspecified": 1
+},
+{
+"tool_id": "f2edb9f554c6008a:radarr_search",
+"text_sha1": "d14b9e63bcac",
+"underspecified": 0
+}
+]
+}

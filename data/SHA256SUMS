@@ -1,0 +1,3 @@
+c4764b514f64f919fe9782b9e3f48c1e32b4586eddfcb0e6a0a474ff258f80bb  data/raw/onet_matches.parquet
+382cd437a97dedb6488ce9577ebf79161513473564aa321e14daa4c01dabedc9  data/raw/servers.parquet
+d5ec03a90fdde415519d68e7319aa6aead483690876ab80161f9bd0c566ee04e  data/raw/tools.parquet
