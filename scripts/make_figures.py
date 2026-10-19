@@ -68,9 +68,12 @@ def fig_prevalence():
     flags = ["no_io_spec", "underspecified", "too_short", "mutating", "underspecified_content", "name_echo",
              "destructive", "destructive_no_safety_cue", "is_empty", "non_latin_script", "vague", "overclaim"]
     llm = {"underspecified": V["underspecified_random_n100"], "destructive": V["destructive_random_n100"]}
+    n_tools_k = f"{M['n_tools'] // 1000}k"
+    rule_us = f"{pp(P['underspecified']):.0f}"
+    llm_us = f"{pp(llm['underspecified']['label_rate']):.0f}"
     fig, ax = plt.subplots(figsize=(7.6, 4.4))
     y = range(len(flags))
-    ax.barh(list(y), [pp(P[f]) for f in flags], color=ADJ, height=0.6, label="rule flags (all 694k tools)")
+    ax.barh(list(y), [pp(P[f]) for f in flags], color=ADJ, height=0.6, label=f"rule flags (all {n_tools_k} tools)")
     for i, f in enumerate(flags):
         right = max(pp(P[f]), pp(llm[f]["label_rate_ci95"][1]) if f in llm else 0)
         ax.text(right + 0.8, i, f"{pp(P[f]):.1f}%", va="center", fontsize=8)
@@ -81,7 +84,7 @@ def fig_prevalence():
                         label="LLM-annotator estimate, random n=100 (95% CI)" if f == "underspecified" else None)
     ax.set_yticks(list(y)); ax.set_yticklabels(flags); ax.invert_yaxis()
     ax.set_xlabel("share of tools flagged [%]"); ax.set_xlim(0, 92)
-    ax.set_title("Prevalence: the rule over-flags 'underspecified' (49% vs 35%)")
+    ax.set_title(f"Prevalence: the rule over-flags 'underspecified' ({rule_us}% vs {llm_us}%)")
     ax.legend(loc="lower right", frameon=False, fontsize=8.5)
     ax.text(0, -0.2, "LLM labels come from the agent that wrote the rules (not human labels). "
             "Source: results/metrics.json, results/validation.json", transform=ax.transAxes, fontsize=7.5, color="#555")
