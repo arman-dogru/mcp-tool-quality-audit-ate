@@ -15,3 +15,4 @@ sha256sum -c data/SHA256SUMS
 .venv/bin/python src/validate.py > /dev/null
 .venv/bin/python src/analyze.py --B 500
 .venv/bin/python src/report.py   # regenerates the results section of README.md from results/*.json
+.venv/bin/python scripts/make_figures.py   # redraws docs/figures/*.png from results/*.json

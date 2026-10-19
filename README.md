@@ -4,7 +4,52 @@ A CPU-only audit of **694,411 MCP tool descriptions** (from 70,927 servers; ATE'
 
 > Independent analysis. It is not affiliated with or endorsed by Cohere Labs, and it reports only numbers computed here. The source announcement is [Cohere: automations' early footprint](https://cohere.com/blog/automations-early-footprint).
 
-## Headline (the Results tables are generated from `results/*.json` by `src/report.py`; numbers quoted here come from them)
+## At a glance
+| | |
+|---|---|
+| **Corpus** | 694,411 MCP tool descriptions from 70,927 servers (Cohere Labs ATE, pinned revision `4b567ba9`) |
+| **Question** | Do "bad description" flags go with ATE's LLM-judge labels once description length is held fixed? |
+| **Main answer** | No reliable effect beyond length: `underspecified` Δgood goes from **−0.96 pp raw** to **+0.38 pp [+0.05, +0.73]** within exact word counts, and **+0.17 pp [−0.10, +0.52]** with duplicates removed |
+| **Prevalence** | Rule flags 49.1% as underspecified; LLM-annotator estimate on a random 100 is 35.0% [26.4, 44.7] |
+| **Safety cues** | 95.1% [94.9, 95.4] of destructive-flagged tools have no safety cue in their prose (rule); 87.0% [74.3, 93.9] on the LLM-labelled check (40/46) |
+| **Method** | Deterministic regex/lexicon rules, Mantel-Haenszel risk differences over word-count strata, cluster bootstrap over servers (B=500) |
+| **Compute** | CPU-only, ~3 CPU-minutes, ~2.1 GB peak RAM, one command: `./reproduce.sh` |
+
+```mermaid
+flowchart LR
+    HF["CohereLabs/ATE @ 4b567ba9<br/>tools, onet_matches, servers"] --> SHA["sha256 check<br/>data/SHA256SUMS"]
+    SHA --> MET["src/metrics.py<br/>rules v2: empty, too_short, name_echo,<br/>vague, no_io_spec, destructive, safety_cue"]
+    MET --> ANA["src/analyze.py<br/>within-length MH differences<br/>cluster bootstrap over servers"]
+    ANA --> MJ[("results/metrics.json")]
+    SMP["src/sample_blind.py<br/>fresh samples: random 100,<br/>60 destructive-flagged"] --> LAB["LLM labels<br/>data/hand_labels_v2.json"]
+    LAB --> VAL["src/validate.py<br/>precision, recall, kappa"]
+    MET --> VAL
+    VAL --> VJ[("results/validation.json")]
+    MJ --> REP["src/report.py<br/>README results tables"]
+    VJ --> REP
+    MJ --> FIG["scripts/make_figures.py<br/>docs/figures/*.png"]
+    VJ --> FIG
+```
+
+## Key figures
+All figures are drawn by `scripts/make_figures.py` from `results/metrics.json` and `results/validation.json` (no numbers typed by hand).
+
+![Forest plot of the flagged-minus-unflagged difference in the share of tools the ATE judge rates good, for ten flags. Grey points are raw differences and blue points hold exact word count fixed, each with 95% cluster-bootstrap intervals. For underspecified the raw difference is about minus 1 percentage point and the length-controlled one is about plus 0.4.](docs/figures/length_controlled_effects.png)
+
+**Length explains the raw gap.** Grey is the raw difference; blue compares tools with the same exact word count. For `underspecified`, `underspecified_content` and `name_echo`, the sign flips from negative to slightly positive.
+
+![Horizontal bar chart of how often each rule flag fires across all 694k tools, from no_io_spec at 80.5 percent down to overclaim at 0.4 percent. Red diamonds with 95 percent intervals show the LLM-annotator estimate on a random 100 tools: 35 percent for underspecified against the rule's 49.1 percent, and 3 percent for destructive against 7.7 percent.](docs/figures/prevalence_rule_vs_llm.png)
+
+**The rule over-flags.** Bars are rule prevalence; red diamonds are the LLM-annotator estimate on a random sample of 100 tools.
+
+<p>
+<img src="docs/figures/underspecified_by_stars.png" width="49%" alt="Line chart of the share of underspecified tools by server GitHub stars tier. The composite flag falls from about 50 percent at 0 to 9 stars to about 38 percent at 1000 or more stars, while underspecified_content stays flat at 11 to 12 percent across tiers.">
+<img src="docs/figures/destructive_no_safety_cue.png" width="49%" alt="Horizontal bar chart of the share of destructive tools with no safety cue in their prose, with 95 percent intervals: 95.1 percent of all rule-flagged destructive tools, 94.5 percent when the verb is in the description, 98.4 percent when it is only in the name, 91.8 percent for descriptions of 15 or more words, and 87.0 percent on the LLM-annotator check of 46 truly destructive tools.">
+</p>
+
+**Left:** popular servers look better on the composite flag only because their descriptions are a bit longer; the non-length part is flat. **Right:** destructive tools rarely warn in their prose, by the rule and by the LLM-annotator check.
+
+## Findings (the Results tables are generated from `results/*.json` by `src/report.py`; numbers quoted here come from them)
 1. **Description length, not the "underspecified" flag, carries the signal.** Raw, underspecified tools get a "good" judge label 0.96 pp less often (2.6% base rate), almost exactly what length alone predicts (−0.99 pp). Holding exact word count fixed, the gap flips to **+0.38 pp [+0.05, +0.73]**. All tools under 6 words are flagged by definition, so this estimate comes only from the ~12.8k flagged tools with 6+ words (effectively the `underspecified_content` contrast). It and drops to +0.17 pp [−0.10, +0.52] once duplicate descriptions are removed. The flags add nothing reliable beyond length.
 2. **The judge outcome is partly circular.** ATE's judge reads the same name and description that the flags score, and for empty descriptions its notes often say so. So `match_quality` here means *"could an LLM judge confirm a task match from the name and description"*, not tool usefulness.
 3. **Prevalence is overstated by the rule.** The rule flags 49% of tools as underspecified; on a fresh sample of 100 tools LLM-labelled by the agent that wrote the rules (not shown rule outputs or judge labels), the labelled rate is 35% [26, 45], and the rule's accuracy equals the majority-class baseline (rule-vs-LLM-annotator κ 0.31, not inter-annotator agreement). A human second-annotator check is pending.
@@ -123,7 +168,12 @@ Ablation: 6,010 destructive flags (11.3%) are triggered only by "email" forms, m
 ## Reproduce
 Prerequisites: `uv`, `curl`, `sha256sum` (coreutils), bash.
 ```bash
-./reproduce.sh   # pinned deps + dataset revision, sha256 check, tests, validate, analyze (B=500), regenerate README results
+./reproduce.sh   # pinned deps + dataset revision, sha256 check, tests, validate, analyze (B=500), regenerate README results and figures
+```
+To redraw only the figures from the committed results (seconds, no dataset download):
+```bash
+uv venv --python 3.13 .venv && uv pip install --python .venv/bin/python -r requirements.txt
+.venv/bin/python scripts/make_figures.py   # writes docs/figures/*.png from results/*.json
 ```
 CPU-only. `src/sample_blind.py` redraws the validation samples (not needed to reproduce the numbers). `analyze.py` takes ~3 CPU-minutes and ~2.1 GB peak RSS (measured with `/usr/bin/time -v`). Python 3.13, versions pinned in `requirements.txt`. `results/tool_flags.parquet` (per-tool flags, ids only) is regenerated locally and is not committed (the v1 19.8 MB copy remains in history at 614c85e; history is not rewritten).
 
