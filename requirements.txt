@@ -3,3 +3,5 @@ numpy==2.5.4
 pandas==3.0.6
 pyarrow==26.0.0
 pytest==9.1.1
+matplotlib==3.11.2   # figures only (scripts/make_figures.py)
+pillow==13.0.0
